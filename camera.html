@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test getUserMedia</title>
+  </head>
+  <body>
+    <h1>Camera Test</h1>
+    <video id="video" width="400" height="300" autoplay></video>
+    <script>
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(function(stream) {
+            let video = document.getElementById('video');
+            video.srcObject = stream;
+          })
+          .catch(function(error) {
+            console.log('Error accessing camera:', error);
+          });
+      } else {
+        alert('getUserMedia is not supported in this browser.');
+      }
+    </script>
+  </body>
+</html>
