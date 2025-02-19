@@ -1,44 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Camera Access</title>
-</head>
-<body>
-    <h1>Requesting Camera Access</h1>
-    <button onclick="startCamera()">Start Camera</button>
+<html>
+  <head>
+    <title>Test getUserMedia</title>
+  </head>
+  <body>
+    <h1>Camera Test</h1>
     <video id="video" width="400" height="300" autoplay></video>
-
-<script>
-    function startCamera() {
-        navigator.mediaDevices.enumerateDevices()
-            .then(function(devices) {
-                // Find the first video device with deviceId = 0
-                const videoDevices = devices.filter(function(device) {
-                    return device.kind === 'videoinput';
-                });
-
-                if (videoDevices.length > 0) {
-                    const videoDeviceId = videoDevices[0].deviceId; // Set to ID 0 if you want the first camera specifically
-                    navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDeviceId } })
-                        .then(function(stream) {
-                            document.getElementById('video').srcObject = stream;
-                            console.log("Camera stream started");
-                        })
-                        .catch(function(error) {
-                            console.error("Camera access denied: ", error);
-                            alert("Error accessing the camera: " + error.name);
-                        });
-                } else {
-                    alert("No video devices found.");
-                }
-            })
-            .catch(function(error) {
-                console.error("Error enumerating devices: ", error);
-                alert("Error enumerating devices: " + error.name);
-            });
-    }
-</script>
-</body>
+    <script>
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(function(stream) {
+            let video = document.getElementById('video');
+            video.srcObject = stream;
+          })
+          .catch(function(error) {
+            console.log('Error accessing camera:', error);
+          });
+      } else {
+        alert('getUserMedia is not supported in this browser.');
+      }
+    </script>
+  </body>
 </html>
