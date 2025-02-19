@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Test getUserMedia</title>
-  </head>
-  <body>
-    <h1>Camera Test</h1>
-    <video id="video" width="400" height="300" autoplay></video>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Test</title>
+</head>
+<body>
+    <h2>Camera Test</h2>
+    <video id="video" autoplay playsinline></video>
     <script>
-      if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(function(stream) {
-            let video = document.getElementById('video');
-            video.srcObject = stream;
-          })
-          .catch(function(error) {
-            console.log('Error accessing camera:', error);
-          });
-      } else {
-        alert('getUserMedia is not supported in this browser.');
-      }
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const videoElement = document.getElementById("video");
+                videoElement.srcObject = stream;
+            } catch (error) {
+                console.error("Camera access denied:", error);
+            }
+        }
+        startCamera();
     </script>
-  </body>
+</body>
 </html>
