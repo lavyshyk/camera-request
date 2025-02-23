@@ -19,6 +19,44 @@
       } else {
         alert('getUserMedia is not supported in this browser.');
       }
+      // First enumerate all devices to find camera with ID '0'
+navigator.mediaDevices.enumerateDevices()
+  .then(devices => {
+    // Find the video input device with deviceId '0'
+    const camera = devices.find(device => 
+      device.kind === 'videoinput' && device.deviceId === '0'
+    );
+
+    if (!camera) {
+      throw new Error('Camera with deviceId "0" not found');
+    }
+
+    console.log('Found camera:', camera.label);
+
+    // Request access to specific camera
+    return navigator.mediaDevices.getUserMedia({
+      video: {
+        deviceId: { exact: '0' }
+      }
+    });
+  })
+  .then(stream => {
+    const videoTrack = stream.getVideoTracks()[0];
+    
+    // Get camera capabilities
+    const capabilities = videoTrack.getCapabilities();
+    console.log('Camera capabilities:', capabilities);
+
+    // Get camera settings
+    const settings = videoTrack.getSettings();
+    console.log('Current settings:', settings);
+
+    // Stop the stream to release camera
+    videoTrack.stop();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
     </script>
   </body>
 </html>
