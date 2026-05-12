@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,4 +21,83 @@
         startCamera();
     </script>
 </body>
-</html>
+</html> -->
+<!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+            <style>
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    min-height: 100%;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                    background: transparent;
+                }
+
+                iframe {
+                    display: block;
+                    max-width: 100% !important;
+                    width: 100% !important;
+                    border: 0;
+                }
+            </style>
+            <script type="text/javascript">
+                (function () {
+                    function resizeCheckoutFrame() {
+                        var frame = document.querySelector('iframe');
+                        if (!frame) return;
+
+                        frame.style.width = '100%';
+                        frame.style.maxWidth = '100%';
+
+                        var minHeight = window.innerHeight || 0;
+                        var currentHeight = parseInt(frame.style.height || '0', 10);
+                        if (!currentHeight || currentHeight < minHeight) {
+                            frame.style.height = minHeight + 'px';
+                            frame.style.minHeight = minHeight + 'px';
+                        }
+                    }
+
+                    window.addEventListener('load', resizeCheckoutFrame);
+                    window.addEventListener('resize', resizeCheckoutFrame);
+                    document.addEventListener('DOMContentLoaded', resizeCheckoutFrame);
+
+                    var observer = new MutationObserver(resizeCheckoutFrame);
+                    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+                    setTimeout(resizeCheckoutFrame, 150);
+                    setTimeout(resizeCheckoutFrame, 500);
+                    setTimeout(resizeCheckoutFrame, 1200);
+                })();
+            </script>
+        </head>
+        <body>
+            <script nonce="NO0MIdr4bPPmvHqqIYovUA==" type="text/javascript">
+    window.BRIDGERPAY_CONFIG = {
+        hideWallets: "ApplePay"
+    }
+
+    var BP_GOOGLE_PAY_WALLET_BUTTON_CONFIG = {
+        buttonType: "plain"
+    }
+
+    const checkoutKey = "d963d578-a156-43f6-8e2e-928c3fd07572";
+    window.addEventListener(
+            `[bp][checkout:${checkoutKey}]:wallet-button-is-ready`,
+            () => {
+                document.querySelector('.wallet-apple-pay').firstElementChild.setAttribute('type', "plain");
+            }
+    );
+</script>
+<script nonce="NO0MIdr4bPPmvHqqIYovUA==" src="https://checkout.bridgerpay.com/v2/loader"
+        data-cashier-key="d963d578-a156-43f6-8e2e-928c3fd07572"
+        data-cashier-token="de4bb389-8877-4118-b6c8-f579a325a44c"
+                data-single-payment-provider=""
+                    data-button-mode="wallet"
+        ></script>
+        </body>
+        </html>
